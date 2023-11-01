@@ -42,7 +42,7 @@ public class TermFrequencyCalculator implements ITermFrequency {
             	if(tempMap.containsKey(word)) {
             		tempMap.put(word, tempMap.get(word)+1);
             	}else {
-            		tempMap.put(word, 1)
+            		tempMap.put(word, 1.0);
             	}
             }
             for(String key:tempMap.keySet()) {
