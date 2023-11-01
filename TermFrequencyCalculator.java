@@ -4,10 +4,19 @@ import java.util.TreeMap;
 
 public class TermFrequencyCalculator implements ITermFrequency {
 
-    @Override
+	@Override
     public TreeMap<String, TreeMap<String, Double>> getTermFrequency(TreeMap<String, String> songLyrics) {
         TreeMap<String, TreeMap<String, Double>> result = new TreeMap<String, TreeMap<String, Double>> ();
         
+        // Finding the avgS
+        double totalWords = 0;
+        double numSongs = songLyrics.keySet().size();
+        for(String songTitle: songLyrics.keySet()) {
+        	String lyric = songLyrics.get(songTitle);
+            String[] words = lyric.split(" ");
+            totalWords += words.length;
+        }
+        double avgS = totalWords/numSongs;
         for(String songTitle: songLyrics.keySet())
         {
             // For each song you have to create TF values
@@ -29,6 +38,18 @@ public class TermFrequencyCalculator implements ITermFrequency {
             
             ////////////////////////////
             //WRITE HERE
+            for(String word: words) {
+            	if(tempMap.containsKey(word)) {
+            		tempMap.get(word)++;
+            	}else {
+            		tempMap.put(word, 1)
+            	}
+            }
+            for(String key:tempMap.keySet()) {
+            	double TF = (tempMap.get(key)*2.2)/
+            			(tempMap.get(key)+(0.25+0.75*(words.length/avgS)));
+            	tempMap.put(key, TF);
+            }
             //////////////////////////
             
             
