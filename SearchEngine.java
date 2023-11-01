@@ -19,41 +19,44 @@ public class SearchEngine {
     }
     
     public String search(String query)
+{
+    String[] queryWords = query.split(" ");
+
+    String resultSong = "";
+    double maxScore = -1;
+
+    // Iterating on each song to calculate its TF-IDF value for the query
+    for (String songTitle : songTitleLyrics.keySet())
     {
-        String [] queryWords = query.split(" ");
-        
-        String resultSong = "";
-        double maxScore = -1;
-      
-        // Iterating on each song to calculate its TF-IDF value for the query
-        for(String songTitle: songTitleLyrics.keySet())
+        // TF-IDF score for the current song
+        double score = 0;
+
+        for (String queryWord : queryWords)
         {
-            // TF-IDF score for the current song
-            double score = 0;
-            
-            // Iterating 
-            for(String queryWord: queryWords)
-            {
-                // Here you should get the corresponding TF and IDF values of that query word
+            // Here you should get the corresponding TF and IDF values of that query word
                 // And then modify the code to calculate the TF-IDF value
                 
                 // Score for a song, is summation of TF*IDF values for each query word
                 // Note that IDF are global and not related to a specific song
                 // But TF values for a query word is different among different songs
-                
-                ////////////////////////////
-                //WRITE HERE
-                //////////////////////////
-            }
+
+
+                //Josh Thyng
+            double tfValue = TFValues.get(songTitle).getOrDefault(queryWord, 0.0);
+            double idfValue = IDFValues.getOrDefault(queryWord, 0.0);
+            score += tfValue * idfValue;
             
-            if (score>maxScore)
-            {
-                maxScore = score;
-                resultSong = songTitle;
-            }
         }
-        
-        // You should return the name of the song with the highest TF-IDF value
-        return resultSong;
+
+        if (score > maxScore)
+        {
+            maxScore = score;
+            resultSong = songTitle;
+        }
     }
+
+    // Return the name of the song with the highest TF-IDF value
+    return resultSong;
+}
+
 }
